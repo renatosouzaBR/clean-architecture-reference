@@ -6,20 +6,22 @@ class DbLoadDeliveries implements LoadDeliveries {
     private readonly dbLoadDeliveriesRepository: DbLoadDeliveriesRepository
   ) {}
 
-  load(identificationIds: [string]): Delivery[] {
+  load(identificationIds: string[]): Delivery[] {
     return this.dbLoadDeliveriesRepository.load(identificationIds)
   }
 }
 
 interface DbLoadDeliveriesRepository {
-  load(identificationIds: [string]): Delivery[]
+  load(identificationIds: string[]): Delivery[]
 }
 
 class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
   callCount = 0
+  identificationIds = []
 
-  load(identificationIds: [string]): Delivery[] {
+  load(identificationIds: string[]): Delivery[] {
     this.callCount++
+    this.identificationIds = identificationIds
     return []
   }
 }
@@ -38,11 +40,13 @@ describe('DBLoadDeliveries', () => {
     expect(sut).toBeDefined()
   })
 
-  test('shoud call load method one time', () => {
+  test('should valid if identificationIds param is provided and call load method one time', () => {
+    const anyIds = ['any_ids']
     const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
 
-    sut.load([''])
+    sut.load(anyIds)
 
     expect(dbLoadDeliveriesRepositoryMock.callCount).toBe(1)
+    expect(dbLoadDeliveriesRepositoryMock.identificationIds).toEqual(anyIds)
   })
 })

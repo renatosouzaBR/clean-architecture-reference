@@ -10,7 +10,7 @@ export class DbLoadDeliveries implements LoadDeliveries {
   ) {}
 
   load(identificationIds: string[]): Delivery[] {
-    if (identificationIds?.length <= 0)
+    if (identificationIds && identificationIds.length <= 0)
       throw new InputError('identificationIds cannot be empty')
 
     const dbListDeliveries =

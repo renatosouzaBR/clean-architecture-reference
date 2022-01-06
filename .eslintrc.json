@@ -6,7 +6,6 @@
   "extends": [
     "eslint:recommended",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint",
     "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
@@ -17,7 +16,6 @@
   "plugins": ["prettier", "@typescript-eslint"],
   "ignorePatterns": "build",
   "rules": {
-    "prettier/prettier": "error",
-    "simple-import-sort/sort": "warn"
+    "prettier/prettier": "error"
   }
 }

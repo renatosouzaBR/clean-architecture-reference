@@ -1,0 +1,3 @@
+{
+  "*": ["prettier --check src/**", "eslint --color src/**", "git add"]
+}

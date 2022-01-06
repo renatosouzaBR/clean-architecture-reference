@@ -3,6 +3,7 @@ import { OutputError } from '@/data/helpers/output-error'
 import { InputError } from '@/data//helpers/input-error'
 import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
 import { DbLoadDeliveries } from '@/data/services/db-load-deliveries'
+import { mockDeliveries } from '@/data/mocks/mock-deliveries'
 
 class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
   callCount = 0
@@ -21,41 +22,6 @@ const makeSut = () => {
   const sut = new DbLoadDeliveries(dbLoadDeliveriesRepositoryMock)
 
   return { sut, dbLoadDeliveriesRepositoryMock }
-}
-
-const mockDeliveries = () => {
-  return [
-    {
-      id: 'ajshd123123',
-      document: '123',
-      destination: {
-        name: 'Joao',
-        city: 'Londrina',
-        state: 'PR',
-      },
-      owner: 'any_ids',
-    },
-    {
-      id: 'ajshd123122',
-      document: '123',
-      destination: {
-        name: 'Joao',
-        city: 'Londrina',
-        state: 'PR',
-      },
-      owner: 'any_ids',
-    },
-    {
-      id: 'ajshd123126',
-      document: '123',
-      destination: {
-        name: 'Joao',
-        city: 'Londrina',
-        state: 'PR',
-      },
-      owner: 'any_ids',
-    },
-  ]
 }
 
 describe('DBLoadDeliveries', () => {

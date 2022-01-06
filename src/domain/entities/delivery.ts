@@ -1,7 +1,9 @@
 export type Delivery = {
+  id: string
   document: string
   destination: Person
-  deliveryProofs: Proof
+  deliveryProofs?: Proof
+  owner: string
 }
 
 type Person = {

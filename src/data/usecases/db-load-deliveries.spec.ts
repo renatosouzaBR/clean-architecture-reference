@@ -1,5 +1,6 @@
 import { Delivery } from '@/domain/entities/delivery'
 import { LoadDeliveries } from '@/domain/usecases/load-deliveries'
+import { OutputError } from '@/data/helpers/output-error'
 
 class DbLoadDeliveries implements LoadDeliveries {
   constructor(
@@ -7,7 +8,17 @@ class DbLoadDeliveries implements LoadDeliveries {
   ) {}
 
   load(identificationIds: string[]): Delivery[] {
-    return this.dbLoadDeliveriesRepository.load(identificationIds)
+    const dbListDeliveries =
+      this.dbLoadDeliveriesRepository.load(identificationIds)
+
+    const hasUnknownIds = dbListDeliveries.filter(
+      (delivery) => !identificationIds.includes(delivery.owner)
+    )
+
+    if (hasUnknownIds.length > 0)
+      throw new OutputError('return with unknown ids')
+
+    return dbListDeliveries
   }
 }
 
@@ -18,11 +29,12 @@ interface DbLoadDeliveriesRepository {
 class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
   callCount = 0
   identificationIds = []
+  output = []
 
   load(identificationIds: string[]): Delivery[] {
     this.callCount++
     this.identificationIds = identificationIds
-    return []
+    return this.output
   }
 }
 
@@ -31,6 +43,41 @@ const makeSut = () => {
   const sut = new DbLoadDeliveries(dbLoadDeliveriesRepositoryMock)
 
   return { sut, dbLoadDeliveriesRepositoryMock }
+}
+
+const mockDeliveries = () => {
+  return [
+    {
+      id: 'ajshd123123',
+      document: '123',
+      destination: {
+        name: 'Joao',
+        city: 'Londrina',
+        state: 'PR',
+      },
+      owner: 'any_ids',
+    },
+    {
+      id: 'ajshd123122',
+      document: '123',
+      destination: {
+        name: 'Joao',
+        city: 'Londrina',
+        state: 'PR',
+      },
+      owner: 'any_ids',
+    },
+    {
+      id: 'ajshd123126',
+      document: '123',
+      destination: {
+        name: 'Joao',
+        city: 'Londrina',
+        state: 'PR',
+      },
+      owner: 'any_ids',
+    },
+  ]
 }
 
 describe('DBLoadDeliveries', () => {
@@ -48,5 +95,28 @@ describe('DBLoadDeliveries', () => {
 
     expect(dbLoadDeliveriesRepositoryMock.callCount).toBe(1)
     expect(dbLoadDeliveriesRepositoryMock.identificationIds).toEqual(anyIds)
+  })
+
+  test('should return a list of deliveries if load method is called', () => {
+    const anyIds = ['any_ids']
+    const deliveries = mockDeliveries()
+    const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
+    dbLoadDeliveriesRepositoryMock.output = deliveries
+
+    const listOfDeliveries = sut.load(anyIds)
+
+    expect(listOfDeliveries).toEqual(deliveries)
+  })
+
+  test('should return throws if list of deliveries returns unknown identificationsIds', () => {
+    const anyIds = ['any_ids']
+    const deliveries = mockDeliveries()
+    const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
+    dbLoadDeliveriesRepositoryMock.output = deliveries
+    dbLoadDeliveriesRepositoryMock.output[0].owner = 'unknown_id'
+
+    expect(() => {
+      sut.load(anyIds)
+    }).toThrow(new OutputError('return with unknown ids'))
   })
 })

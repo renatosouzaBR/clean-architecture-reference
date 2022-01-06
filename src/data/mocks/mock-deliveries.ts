@@ -1,34 +1,20 @@
-export const mockDeliveries = () => {
-  return [
-    {
-      id: 'ajshd123123',
-      document: '123',
+import faker from 'faker'
+
+export const mockDeliveries = (arrayLength = 5) => {
+  const deliveriesMock = []
+
+  for (let i = 0; i < arrayLength; i++) {
+    deliveriesMock.push({
+      id: faker.datatype.uuid(),
+      document: faker.datatype.number().toString(),
       destination: {
-        name: 'Joao',
-        city: 'Londrina',
-        state: 'PR',
+        name: faker.name.findName(),
+        city: faker.address.city(),
+        state: faker.address.state(),
       },
       owner: 'any_ids',
-    },
-    {
-      id: 'ajshd123122',
-      document: '123',
-      destination: {
-        name: 'Joao',
-        city: 'Londrina',
-        state: 'PR',
-      },
-      owner: 'any_ids',
-    },
-    {
-      id: 'ajshd123126',
-      document: '123',
-      destination: {
-        name: 'Joao',
-        city: 'Londrina',
-        state: 'PR',
-      },
-      owner: 'any_ids',
-    },
-  ]
+    })
+  }
+
+  return deliveriesMock
 }

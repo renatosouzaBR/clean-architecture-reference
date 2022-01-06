@@ -1,6 +1,6 @@
 export class OutputError extends Error {
   constructor(message: string) {
-    super('OutputError')
-    this.message = message
+    super(message)
+    this.name = 'OutputError'
   }
 }

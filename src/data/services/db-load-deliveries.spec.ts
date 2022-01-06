@@ -1,34 +1,8 @@
 import { Delivery } from '@/domain/entities/delivery'
-import { LoadDeliveries } from '@/domain/usecases/load-deliveries'
 import { OutputError } from '@/data/helpers/output-error'
 import { InputError } from '@/data//helpers/input-error'
-
-class DbLoadDeliveries implements LoadDeliveries {
-  constructor(
-    private readonly dbLoadDeliveriesRepository: DbLoadDeliveriesRepository
-  ) {}
-
-  load(identificationIds: string[]): Delivery[] {
-    if (identificationIds?.length <= 0)
-      throw new InputError('identificationIds cannot be empty')
-
-    const dbListDeliveries =
-      this.dbLoadDeliveriesRepository.load(identificationIds)
-
-    const hasUnknownIds = dbListDeliveries.filter(
-      (delivery) => !identificationIds.includes(delivery.owner)
-    )
-
-    if (hasUnknownIds.length > 0)
-      throw new OutputError('return with unknown ids')
-
-    return dbListDeliveries
-  }
-}
-
-interface DbLoadDeliveriesRepository {
-  load(identificationIds: string[]): Delivery[]
-}
+import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
+import { DbLoadDeliveries } from '@/data/services/db-load-deliveries'
 
 class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
   callCount = 0

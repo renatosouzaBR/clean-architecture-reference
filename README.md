@@ -39,7 +39,7 @@ Vou deixar aqui algumas anotações para guiar a construção de cada camada. En
 - Como funciona o TDD nessa camada?
   - testamos as implementações dos casos de uso
 - Quais pastas podemos ter nessa camada (isso é pessoal, coloque a que você quiser)?
-  - usecases: colocamos as implementações concretas dos casos de uso da domain
+  - usecases/services: colocamos as implementações concretas dos casos de uso da domain
 - O que escrevemos nessa camada?
   - escrevemos nossas implementações dos casos de uso de domain, por exemplo: um caso de uso LoadPurchases, colocamos a implementação no nome + o caso de uso, que poderia ser BDLoadPurchases ou APILoadPurchases.
 

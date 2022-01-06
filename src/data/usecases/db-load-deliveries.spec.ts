@@ -1,6 +1,7 @@
 import { Delivery } from '@/domain/entities/delivery'
 import { LoadDeliveries } from '@/domain/usecases/load-deliveries'
 import { OutputError } from '@/data/helpers/output-error'
+import { InputError } from '@/data//helpers/input-error'
 
 class DbLoadDeliveries implements LoadDeliveries {
   constructor(
@@ -8,6 +9,9 @@ class DbLoadDeliveries implements LoadDeliveries {
   ) {}
 
   load(identificationIds: string[]): Delivery[] {
+    if (identificationIds?.length <= 0)
+      throw new InputError('identificationIds cannot be empty')
+
     const dbListDeliveries =
       this.dbLoadDeliveriesRepository.load(identificationIds)
 
@@ -95,6 +99,14 @@ describe('DBLoadDeliveries', () => {
 
     expect(dbLoadDeliveriesRepositoryMock.callCount).toBe(1)
     expect(dbLoadDeliveriesRepositoryMock.identificationIds).toEqual(anyIds)
+  })
+
+  test('should return throws if identificationIds param is no provided', () => {
+    const { sut } = makeSut()
+
+    expect(() => {
+      sut.load([])
+    }).toThrow(new InputError('identificationIds cannot be empty'))
   })
 
   test('should return a list of deliveries if load method is called', () => {

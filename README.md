@@ -44,3 +44,15 @@ Vou deixar aqui algumas anotações para guiar a construção de cada camada. En
   - escrevemos nossas implementações dos casos de uso de domain, por exemplo: um caso de uso LoadPurchases, colocamos a implementação no nome + o caso de uso, que poderia ser BDLoadPurchases ou APILoadPurchases.
 
 <p align="right">(<a href="#top">voltar ao topo</a>)</p>
+
+## Infra
+
+- Como funciona o TDD nessa camada?
+  - testamos as classes que implementam as interfaces, como por exemplo um repository que acessa um banco de dados.
+- Quais pastas podemos ter nessa camada?
+  - repositories: aqui colocamos os nossos repositorios de implementações
+  - helpers: auxiliares para reutilizar, por exemplo, mongo-helper
+- O que escrevemos nessa camada?
+  - escrevemos nossos repositorios e outras implementações que se conectam com libs externas
+
+<p align="right">(<a href="#top">voltar ao topo</a>)</p>

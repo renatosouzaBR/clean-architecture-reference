@@ -10,10 +10,10 @@ class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
   identificationIds = []
   output = []
 
-  load(identificationIds: string[]): Delivery[] {
+  async load(identificationIds: string[]): Promise<Delivery[]> {
     this.callCount++
     this.identificationIds = identificationIds
-    return this.output
+    return Promise.resolve(this.output)
   }
 }
 
@@ -31,11 +31,11 @@ describe('DBLoadDeliveries', () => {
     expect(sut).toBeDefined()
   })
 
-  test('should valid if identificationIds param is provided and call load method one time', () => {
+  test('should valid if identificationIds param is provided and call load method one time', async () => {
     const anyIds = ['any_ids']
     const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
 
-    sut.load(anyIds)
+    await sut.load(anyIds)
 
     expect(dbLoadDeliveriesRepositoryMock.callCount).toBe(1)
     expect(dbLoadDeliveriesRepositoryMock.identificationIds).toEqual(anyIds)
@@ -44,18 +44,20 @@ describe('DBLoadDeliveries', () => {
   test('should return throws if identificationIds param is no provided', () => {
     const { sut } = makeSut()
 
-    expect(() => {
-      sut.load([])
-    }).toThrow(new InputError('identificationIds cannot be empty'))
+    const promise = sut.load([])
+
+    expect(promise).rejects.toThrow(
+      new InputError('identificationIds cannot be empty')
+    )
   })
 
-  test('should return a list of deliveries if load method is called', () => {
+  test('should return a list of deliveries if load method is called', async () => {
     const anyIds = ['any_ids']
     const deliveries = mockDeliveries()
     const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
     dbLoadDeliveriesRepositoryMock.output = deliveries
 
-    const listOfDeliveries = sut.load(anyIds)
+    const listOfDeliveries = await sut.load(anyIds)
 
     expect(listOfDeliveries).toEqual(deliveries)
   })
@@ -67,8 +69,8 @@ describe('DBLoadDeliveries', () => {
     dbLoadDeliveriesRepositoryMock.output = deliveries
     dbLoadDeliveriesRepositoryMock.output[0].owner = 'unknown_id'
 
-    expect(() => {
-      sut.load(anyIds)
-    }).toThrow(new OutputError('return with unknown ids'))
+    const promise = sut.load(anyIds)
+
+    expect(promise).rejects.toThrow(new OutputError('return with unknown ids'))
   })
 })

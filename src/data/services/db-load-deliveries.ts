@@ -9,12 +9,13 @@ export class DbLoadDeliveries implements LoadDeliveries {
     private readonly dbLoadDeliveriesRepository: DbLoadDeliveriesRepository
   ) {}
 
-  load(identificationIds: string[]): Delivery[] {
+  async load(identificationIds: string[]): Promise<Delivery[]> {
     if (identificationIds && identificationIds.length <= 0)
       throw new InputError('identificationIds cannot be empty')
 
-    const dbListDeliveries =
-      this.dbLoadDeliveriesRepository.load(identificationIds)
+    const dbListDeliveries = await this.dbLoadDeliveriesRepository.load(
+      identificationIds
+    )
 
     const hasUnknownIds = dbListDeliveries.filter(
       (delivery) => !identificationIds.includes(delivery.owner)

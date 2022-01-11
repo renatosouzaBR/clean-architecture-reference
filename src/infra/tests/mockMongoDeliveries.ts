@@ -1,6 +1,6 @@
 import faker from 'faker'
 
-export const mockMongoDeliveries = (arrayLength = 5) => {
+export const mockMongoDeliveries = (arrayLength: number) => {
   const deliveriesMock = []
 
   for (let i = 0; i < arrayLength; i++) {

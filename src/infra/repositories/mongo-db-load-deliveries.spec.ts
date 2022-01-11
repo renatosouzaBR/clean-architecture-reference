@@ -38,10 +38,10 @@ describe('MongoDBLoadDeliveries', () => {
 
   test('should return a list of deliveries when call load method', async () => {
     const { sut } = makeSut()
-    DeliveryModel.find = jest.fn().mockResolvedValue(mockMongoDeliveries(2))
+    DeliveryModel.find = jest.fn().mockResolvedValue(mockMongoDeliveries())
 
     const deliveries = await sut.load([])
 
-    expect(deliveries.length).toBe(2)
+    expect(deliveries.length).toBe(5)
   })
 })

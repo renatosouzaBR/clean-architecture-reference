@@ -4,8 +4,13 @@ import { DeliveryModel } from '@/infra/models/delivery-schema'
 import { mockMongoDeliveries } from '@/infra/tests/mockMongoDeliveries'
 
 class MongoDBLoadDeliveries implements DbLoadDeliveriesRepository {
-  load(identificationIds: string[]): Promise<Delivery[]> {
-    return Promise.resolve([])
+  async load(identificationIds: string[]): Promise<Delivery[]> {
+    const deliveryList = await DeliveryModel.find({})
+
+    return deliveryList.map((delivery) => ({
+      id: delivery._id,
+      ...delivery,
+    }))
   }
 }
 
@@ -18,9 +23,19 @@ describe('MongoDBLoadDeliveries', () => {
 
   test('should return a empty list when call load method', async () => {
     const mongoDBLoadDeliveries = new MongoDBLoadDeliveries()
+    DeliveryModel.find = jest.fn().mockResolvedValue([])
 
     const deliveries = await mongoDBLoadDeliveries.load([])
 
     expect(deliveries).toEqual([])
+  })
+
+  test('should return a list of deliveries when call load method', async () => {
+    const mongoDBLoadDeliveries = new MongoDBLoadDeliveries()
+    DeliveryModel.find = jest.fn().mockResolvedValue(mockMongoDeliveries(2))
+
+    const deliveries = await mongoDBLoadDeliveries.load([])
+
+    expect(deliveries.length).toBe(2)
   })
 })

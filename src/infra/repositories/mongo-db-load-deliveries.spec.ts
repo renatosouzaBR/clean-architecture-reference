@@ -9,7 +9,7 @@ class MongoDBLoadDeliveries implements DbLoadDeliveriesRepository {
     if (!identificationIds || identificationIds.length <= 0)
       throw new InputError('identificationIds cannot be empty')
 
-    const deliveryList = await DeliveryModel.find({})
+    const deliveryList = await DeliveryModel.find({ _id: identificationIds })
 
     return deliveryList.map((delivery) => ({
       id: delivery._id,
@@ -57,5 +57,14 @@ describe('MongoDBLoadDeliveries', () => {
     expect(promise).rejects.toThrow(
       new InputError('identificationIds cannot be empty')
     )
+  })
+
+  test('should valid if identificationIds was passed to the find method', async () => {
+    const { sut } = makeSut()
+    DeliveryModel.find = jest.fn().mockResolvedValue(mockMongoDeliveries(2))
+
+    await sut.load(['any_ids'])
+
+    expect(DeliveryModel.find).toHaveBeenCalledWith({ _id: ['any_ids'] })
   })
 })

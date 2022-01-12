@@ -11,7 +11,7 @@ const makeSut = () => {
   return { sut }
 }
 
-const makeDbDeliveryFaker = () => ({
+const makeDbDeliveryFake = () => ({
   _id: faker.datatype.uuid(),
   document: faker.datatype.number().toString(),
   destination: {
@@ -40,7 +40,7 @@ describe('MongoDBLoadDeliveries', () => {
 
   test('should return a list of deliveries when call load method', async () => {
     const { sut } = makeSut()
-    const dbDeliveriesList = mockReturnedArray(2, makeDbDeliveryFaker())
+    const dbDeliveriesList = mockReturnedArray(2, makeDbDeliveryFake())
     DeliveryModel.find = jest.fn().mockResolvedValue(dbDeliveriesList)
 
     const deliveries = await sut.load(['any_ids'])
@@ -60,7 +60,7 @@ describe('MongoDBLoadDeliveries', () => {
 
   test('should valid if identificationIds is provided and load method called one time', async () => {
     const { sut } = makeSut()
-    const dbDeliveriesList = mockReturnedArray(2, makeDbDeliveryFaker())
+    const dbDeliveriesList = mockReturnedArray(2, makeDbDeliveryFake())
     DeliveryModel.find = jest.fn().mockResolvedValue(dbDeliveriesList)
 
     await sut.load(['any_ids'])

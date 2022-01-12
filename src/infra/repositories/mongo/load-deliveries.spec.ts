@@ -1,7 +1,7 @@
 import { InputError } from '@/helpers/errors/input-error'
-import { DeliveryModel } from '@/infra/models/delivery-schema'
+import { DeliveryModel } from '@/infra/repositories/mongo/delivery-schema'
 import { mockMongoDeliveries } from '@/infra/tests/mockMongoDeliveries'
-import { MongoDBLoadDeliveries } from '@/infra/repositories/mongo-db-load-deliveries'
+import { MongoDBLoadDeliveries } from '@/infra/repositories/mongo/load-deliveries'
 
 const makeSut = () => {
   const sut = new MongoDBLoadDeliveries()

@@ -1,16 +1,16 @@
-import { Delivery } from '@/domain/entities/delivery'
 import { LoadDeliveriesService } from '@/data/services/load-deliveries'
 import { OutputError } from '@/data/helpers/output-error'
 import { InputError } from '@/data//helpers/input-error'
 import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
 import { mockDeliveries } from '@/data/mocks/mock-deliveries'
+import { DeliveryData } from '@/data/models/delivery-data'
 
 class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
   callCount = 0
   identificationIds = []
   output = []
 
-  async load(identificationIds: string[]): Promise<Delivery[]> {
+  async load(identificationIds: string[]): Promise<DeliveryData[]> {
     this.callCount++
     this.identificationIds = identificationIds
     return Promise.resolve(this.output)

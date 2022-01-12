@@ -59,12 +59,13 @@ describe('MongoDBLoadDeliveries', () => {
     )
   })
 
-  test('should valid if identificationIds was passed to the find method', async () => {
+  test('should valid if identificationIds is provided and load method called one time', async () => {
     const { sut } = makeSut()
     DeliveryModel.find = jest.fn().mockResolvedValue(mockMongoDeliveries(2))
 
     await sut.load(['any_ids'])
 
     expect(DeliveryModel.find).toHaveBeenCalledWith({ _id: ['any_ids'] })
+    expect(DeliveryModel.find).toHaveBeenCalledTimes(1)
   })
 })

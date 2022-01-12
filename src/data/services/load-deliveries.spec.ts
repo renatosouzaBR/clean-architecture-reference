@@ -1,8 +1,10 @@
+import faker from 'faker'
+
 import { LoadDeliveriesService } from '@/data/services/load-deliveries'
 import { OutputError } from '@/helpers/errors/output-error'
 import { InputError } from '@/helpers/errors/input-error'
 import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
-import { mockDeliveries } from '@/data/mocks/mock-deliveries'
+import { mockReturnedArray } from '@/helpers/mocks/mock-returned-array'
 import { DeliveryData } from '@/data/models/delivery-data'
 
 class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
@@ -22,6 +24,19 @@ const makeSut = () => {
   const sut = new LoadDeliveriesService(dbLoadDeliveriesRepositoryMock)
 
   return { sut, dbLoadDeliveriesRepositoryMock }
+}
+
+const makeDeliveries = (arrayLength: number) => {
+  return mockReturnedArray(arrayLength, {
+    id: faker.datatype.uuid(),
+    document: faker.datatype.number().toString(),
+    destination: {
+      name: faker.name.findName(),
+      city: faker.address.city(),
+      state: faker.address.state(),
+    },
+    owner: 'any_ids',
+  })
 }
 
 describe('LoadDeliveriesService', () => {
@@ -53,7 +68,7 @@ describe('LoadDeliveriesService', () => {
 
   test('should return a list of deliveries if load method is called', async () => {
     const anyIds = ['any_ids']
-    const deliveries = mockDeliveries()
+    const deliveries = makeDeliveries(2)
     const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
     dbLoadDeliveriesRepositoryMock.output = deliveries
 
@@ -64,7 +79,7 @@ describe('LoadDeliveriesService', () => {
 
   test('should return throws if list of deliveries returns unknown identificationsIds', () => {
     const anyIds = ['any_ids']
-    const deliveries = mockDeliveries()
+    const deliveries = makeDeliveries(2)
     const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
     dbLoadDeliveriesRepositoryMock.output = deliveries
     dbLoadDeliveriesRepositoryMock.output[0].owner = 'unknown_id'

@@ -4,7 +4,7 @@ import { InputError } from '@/data/helpers/input-error'
 import { OutputError } from '@/data/helpers/output-error'
 import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
 
-export class DbLoadDeliveries implements LoadDeliveries {
+export class LoadDeliveriesService implements LoadDeliveries {
   constructor(
     private readonly dbLoadDeliveriesRepository: DbLoadDeliveriesRepository
   ) {}

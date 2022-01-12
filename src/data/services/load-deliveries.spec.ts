@@ -1,8 +1,8 @@
 import { Delivery } from '@/domain/entities/delivery'
+import { LoadDeliveriesService } from '@/data/services/load-deliveries'
 import { OutputError } from '@/data/helpers/output-error'
 import { InputError } from '@/data//helpers/input-error'
 import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
-import { DbLoadDeliveries } from '@/data/services/db-load-deliveries'
 import { mockDeliveries } from '@/data/mocks/mock-deliveries'
 
 class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
@@ -19,12 +19,12 @@ class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
 
 const makeSut = () => {
   const dbLoadDeliveriesRepositoryMock = new DbLoadDeliveriesRepositoryMock()
-  const sut = new DbLoadDeliveries(dbLoadDeliveriesRepositoryMock)
+  const sut = new LoadDeliveriesService(dbLoadDeliveriesRepositoryMock)
 
   return { sut, dbLoadDeliveriesRepositoryMock }
 }
 
-describe('DBLoadDeliveries', () => {
+describe('LoadDeliveriesService', () => {
   test('should return definied sut.init', () => {
     const { sut } = makeSut()
 

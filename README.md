@@ -56,3 +56,19 @@ Vou deixar aqui algumas anotações para guiar a construção de cada camada. En
   - escrevemos nossos repositorios e outras implementações que se conectam com libs externas
 
 <p align="right">(<a href="#top">voltar ao topo</a>)</p>
+
+## Presentation
+
+- Como funciona o TDD nessa camada?
+  - validamos os dados necessarios para executar o caso de uso, por exemplo, um caso de uso de login, esperamos receber um email e senha, é aqui que escrevemos o teste para validar se recebemos esses parametros, se caso o email é valido, se a senha atende aos requisitos de criação de senha, etc.
+  - validamos se os dados foram passados de uma camada para outra, por exemplo, do controller para o caso de uso, garantimos que o caso de uso recebeu os parametros.
+  - validamos a resposta do caso de uso, nesse caso podemos "mocar" o caso de uso.
+  - validamos os erros lançados das camadas superiores, aqui colocamos try/catch
+- Quais pastas podemos ter nessa camada?
+  - helpers: aqui colocamos arquivos auxiliares como por exemplo, objetos de retorno/requisicao formatados, erros personalizados.
+  - controllers: colocamos as classes que vão tratar nossas requisicoes/respostas, sem envolver framework.
+- O que colocamos nessa camada?
+  - colocamos nossos controllers, que farão validações na requisição antes de passar a chamada para o caso de uso. Aqui injetamos o caso de uso.
+  - escrevemos as viewModel, que sao abstracoes da entidade do dominio, que serao devolvidas na solicitação
+
+<p align="right">(<a href="#top">voltar ao topo</a>)</p>

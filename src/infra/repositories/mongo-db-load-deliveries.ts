@@ -1,6 +1,6 @@
 import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
 import { Delivery } from '@/domain/entities/delivery'
-import { InputError } from '@/data/helpers/input-error'
+import { InputError } from '@/helpers/errors/input-error'
 import { DeliveryModel } from '@/infra/models/delivery-schema'
 
 export class MongoDBLoadDeliveries implements DbLoadDeliveriesRepository {

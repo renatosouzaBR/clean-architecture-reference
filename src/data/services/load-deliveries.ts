@@ -1,7 +1,7 @@
 import { Delivery } from '@/domain/entities/delivery'
 import { LoadDeliveries } from '@/domain/usecases/load-deliveries'
-import { InputError } from '@/data/helpers/input-error'
-import { OutputError } from '@/data/helpers/output-error'
+import { InputError } from '@/helpers/errors/input-error'
+import { OutputError } from '@/helpers/errors/output-error'
 import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
 
 export class LoadDeliveriesService implements LoadDeliveries {

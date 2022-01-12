@@ -1,6 +1,6 @@
 import { LoadDeliveriesService } from '@/data/services/load-deliveries'
-import { OutputError } from '@/data/helpers/output-error'
-import { InputError } from '@/data//helpers/input-error'
+import { OutputError } from '@/helpers/errors/output-error'
+import { InputError } from '@/helpers/errors/input-error'
 import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
 import { mockDeliveries } from '@/data/mocks/mock-deliveries'
 import { DeliveryData } from '@/data/models/delivery-data'

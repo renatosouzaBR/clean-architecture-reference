@@ -1,4 +1,4 @@
-import { InputError } from '@/data/helpers/input-error'
+import { InputError } from '@/helpers/errors/input-error'
 import { DeliveryModel } from '@/infra/models/delivery-schema'
 import { mockMongoDeliveries } from '@/infra/tests/mockMongoDeliveries'
 import { MongoDBLoadDeliveries } from '@/infra/repositories/mongo-db-load-deliveries'

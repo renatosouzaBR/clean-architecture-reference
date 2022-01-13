@@ -70,4 +70,18 @@ describe('LoadDeliveriesController', () => {
       type: 'success',
     })
   })
+
+  test('should return a empty list if identificationsIds param is provided', async () => {
+    const { sut, loadDeliveriesUseCaseMock } = makeSut()
+    loadDeliveriesUseCaseMock.output = []
+
+    const response = await sut.handle({
+      params: { identificationsIds: ['any_id'] },
+    })
+
+    expect(response).toEqual({
+      data: [],
+      type: 'success',
+    })
+  })
 })

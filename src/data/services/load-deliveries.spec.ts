@@ -1,11 +1,10 @@
-import faker from 'faker'
-
 import { LoadDeliveriesService } from '@/data/services/load-deliveries'
 import { OutputError } from '@/helpers/errors/output-error'
 import { InputError } from '@/helpers/errors/input-error'
 import { DbLoadDeliveriesRepository } from '@/data/contracts/db-load-deliveries-repository'
 import { mockReturnedArray } from '@/helpers/mocks/mock-returned-array'
 import { DeliveryData } from '@/data/models/delivery-data'
+import { makeDeliveryFake } from '@/helpers/mocks/mock-delivery'
 
 class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
   callCount = 0
@@ -25,17 +24,6 @@ const makeSut = () => {
 
   return { sut, dbLoadDeliveriesRepositoryMock }
 }
-
-const makeDeliveryFake = () => ({
-  id: faker.datatype.uuid(),
-  document: faker.datatype.number().toString(),
-  destination: {
-    name: faker.name.findName(),
-    city: faker.address.city(),
-    state: faker.address.state(),
-  },
-  owner: 'any_ids',
-})
 
 describe('LoadDeliveriesService', () => {
   test('should return definied sut.init', () => {

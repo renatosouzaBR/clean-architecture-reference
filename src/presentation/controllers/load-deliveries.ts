@@ -5,11 +5,15 @@ import {
   Request,
   Response,
 } from '@/presentation/contracts/controller'
+import { LoadDeliveriesParams } from '../contracts/load-deliveries-params'
+import { DeliveryView } from '../models/delivery-view'
 
 export class LoadDeliveriesController implements Controller {
   constructor(private readonly loadDeliveriesUseCase: LoadDeliveries) {}
 
-  async handle(request: Request): Promise<Response> {
+  async handle(
+    request: Request<LoadDeliveriesParams>
+  ): Promise<Response<DeliveryView[]>> {
     try {
       if (!request?.params?.identificationIds)
         throw new MissingParamError('identificationIds')
@@ -19,7 +23,7 @@ export class LoadDeliveriesController implements Controller {
         identificationIds
       )
 
-      return { data: deliveryList, type: 'success' }
+      return { data: DeliveryView.mapCollection(deliveryList), type: 'success' }
     } catch (error) {
       return { data: error, type: 'failed' }
     }

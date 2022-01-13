@@ -10,12 +10,12 @@ class LoadDeliveriesController implements Controller {
 
   async handle(request: Request): Promise<Response> {
     try {
-      if (!request?.params?.identificationsIds)
-        throw new MissingParamError('identificationsIds')
+      if (!request?.params?.identificationIds)
+        throw new MissingParamError('identificationIds')
 
-      const { identificationsIds } = request.params
+      const { identificationIds } = request.params
       const deliveryList = await this.loadDeliveriesUseCase.load(
-        identificationsIds
+        identificationIds
       )
 
       return { data: deliveryList, type: 'success' }
@@ -27,7 +27,12 @@ class LoadDeliveriesController implements Controller {
 
 class LoadDeliveriesUseCaseMock implements LoadDeliveries {
   output = []
+  identificationIds = []
+  countCount = 0
+
   load(identificationIds: string[]): Promise<Delivery[]> {
+    this.identificationIds = identificationIds
+    this.countCount++
     return Promise.resolve(this.output)
   }
 }
@@ -46,23 +51,23 @@ describe('LoadDeliveriesController', () => {
     expect(sut).toBeDefined()
   })
 
-  test('should return a missing error if identificationsIds param is not provided', async () => {
+  test('should return a missing error if identificationIds param is not provided', async () => {
     const { sut } = makeSut()
 
     const response = await sut.handle(null)
 
     expect(response).toEqual({
-      data: new MissingParamError('identificationsIds'),
+      data: new MissingParamError('identificationIds'),
       type: 'failed',
     })
   })
 
-  test('should return a list of deliveries if identificationsIds param is provided', async () => {
+  test('should return a list of deliveries if identificationIds param is provided', async () => {
     const { sut, loadDeliveriesUseCaseMock } = makeSut()
     loadDeliveriesUseCaseMock.output = mockReturnedArray(2, makeDeliveryFake())
 
     const response = await sut.handle({
-      params: { identificationsIds: ['any_id'] },
+      params: { identificationIds: ['any_id'] },
     })
 
     expect(response).toEqual({
@@ -71,17 +76,28 @@ describe('LoadDeliveriesController', () => {
     })
   })
 
-  test('should return a empty list if identificationsIds param is provided', async () => {
+  test('should return a empty list if identificationIds param is provided', async () => {
     const { sut, loadDeliveriesUseCaseMock } = makeSut()
     loadDeliveriesUseCaseMock.output = []
 
     const response = await sut.handle({
-      params: { identificationsIds: ['any_id'] },
+      params: { identificationIds: ['any_id'] },
     })
 
     expect(response).toEqual({
       data: [],
       type: 'success',
     })
+  })
+
+  test('should valid if identificationIds param is provided for usecase and called one time', async () => {
+    const { sut, loadDeliveriesUseCaseMock } = makeSut()
+
+    await sut.handle({
+      params: { identificationIds: ['any_id'] },
+    })
+
+    expect(loadDeliveriesUseCaseMock.identificationIds).toEqual(['any_id'])
+    expect(loadDeliveriesUseCaseMock.countCount).toBe(1)
   })
 })

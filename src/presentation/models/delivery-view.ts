@@ -8,14 +8,19 @@ export class DeliveryView {
   owner: string
 
   static map(entity: Delivery): DeliveryView {
+    if (entity.deliveryProofs) {
+      return {
+        ...entity,
+        deliveryProofs: {
+          ...entity.deliveryProofs,
+          deliveredWhen: entity.deliveryProofs.deliveredWhen.toISOString(),
+        },
+      }
+    }
+
     return {
       ...entity,
-      deliveryProofs: entity.deliveryProofs
-        ? {
-            ...entity.deliveryProofs,
-            deliveredWhen: entity.deliveryProofs.deliveredWhen.toISOString(),
-          }
-        : undefined,
+      deliveryProofs: undefined,
     }
   }
 

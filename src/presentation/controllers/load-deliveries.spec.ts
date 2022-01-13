@@ -80,4 +80,26 @@ describe('LoadDeliveriesController', () => {
     expect(loadDeliveriesUseCaseMock.identificationIds).toEqual(['any_id'])
     expect(loadDeliveriesUseCaseMock.countCount).toBe(1)
   })
+
+  test('should return a list of deliveries with a deliveryProofs prop', async () => {
+    const { sut, loadDeliveriesUseCaseMock } = makeSut()
+    const deliveryFake = makeDeliveryFake()
+    const deliveredWhen = new Date()
+    const deliveryProofs = { deliveredWhen }
+    loadDeliveriesUseCaseMock.output = [{ ...deliveryFake, deliveryProofs }]
+
+    const response = await sut.handle({
+      params: { identificationIds: ['any_id'] },
+    })
+
+    expect(response).toEqual({
+      data: [
+        {
+          ...deliveryFake,
+          deliveryProofs: { deliveredWhen: deliveredWhen.toISOString() },
+        },
+      ],
+      type: 'success',
+    })
+  })
 })

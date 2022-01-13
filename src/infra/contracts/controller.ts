@@ -1,5 +1,5 @@
 export interface Controller {
-  handle(request: Request): Response
+  handle(request: Request): Promise<Response>
 }
 
 export type Request = {

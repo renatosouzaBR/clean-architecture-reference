@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/main/index.js",
   "scripts": {
-    "dev": "tsnd --respawn -r tsconfig-paths/register src/main/index.ts",
+    "dev": "tsnd --respawn --watch -r tsconfig-paths/register src/main/index.ts",
     "test:unit": "jest --watch",
     "test:ci": "jest --coverage"
   },

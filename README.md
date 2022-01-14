@@ -49,7 +49,7 @@ Vou deixar aqui algumas anotações para guiar a construção de cada camada. En
 
 - Como funciona o TDD nessa camada?
   - testamos as classes que implementam as interfaces da camada data, como por exemplo um repository que acessa um banco de dados.
-- Quais pastas podemos ter nessa camada?
+- Quais pastas podemos ter nessa camada? (isso é pessoal, coloque a que você quiser)
   - repositories: aqui colocamos os nossos repositorios de implementações
   - helpers: auxiliares para reutilizar, por exemplo, mongo-helper
 - O que escrevemos nessa camada?
@@ -64,11 +64,28 @@ Vou deixar aqui algumas anotações para guiar a construção de cada camada. En
   - validamos se os dados foram passados de uma camada para outra, por exemplo, do controller para o caso de uso, garantimos que o caso de uso recebeu os parametros.
   - validamos a resposta do caso de uso, nesse caso podemos "mocar" o caso de uso.
   - validamos os erros lançados das camadas superiores, aqui colocamos try/catch
-- Quais pastas podemos ter nessa camada?
+- Quais pastas podemos ter nessa camada? (isso é pessoal, coloque a que você quiser)
   - helpers: aqui colocamos arquivos auxiliares como por exemplo, objetos de retorno/requisicao formatados, erros personalizados.
   - controllers: colocamos as classes que vão tratar nossas requisicoes/respostas, sem envolver framework.
 - O que colocamos nessa camada?
   - colocamos nossos controllers, que farão validações na requisição antes de passar a chamada para o caso de uso. Aqui injetamos o caso de uso.
   - escrevemos as viewModel, que sao abstracoes da entidade do dominio, que serao devolvidas na solicitação
+
+<p align="right">(<a href="#top">voltar ao topo</a>)</p>
+
+## Main (Composite root)
+
+- Como funciona o TDD nessa camada?
+  - não precisamos fazer testes de todos os arquivos, apenas daqueles que contenham alguma configuração e que queremos garantir o funcionamento correto.
+- Quais pastas podemos ter nessa camada?
+  - config: todo setup de libs externas
+  - middlewares: auxiliares de middlewares
+  - routes: caso de utilizar um express
+  - composers: arquivos que fazem a composição de classes para utilizar um caso de uso
+  - adapters: classes que adptam requisicoes ou respostas dos casos de uso para as libs externas
+  - factories: funçao que retorna o controller criado com suas dependencias
+- O que colocamos nessa camada?
+  - colocamos a composição de todas as outras camadas
+  - montamos as factories
 
 <p align="right">(<a href="#top">voltar ao topo</a>)</p>

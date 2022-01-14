@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
 
 export const setupMongoose = async (mongoURL: string) => {
-  return await mongoose.connect(mongoURL)
+  if (mongoose.connection.readyState === 0) await mongoose.connect(mongoURL)
 }

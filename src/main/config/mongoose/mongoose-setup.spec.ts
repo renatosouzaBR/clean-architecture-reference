@@ -1,3 +1,5 @@
+import mongoose from 'mongoose'
+
 import { setupMongoose } from '@/main/config/mongoose/mongoose-setup'
 import env from '@/main/config/env'
 
@@ -9,8 +11,15 @@ describe('MongooseSetup', () => {
   })
 
   test('should valid if success connetion is true', async () => {
-    const mongoConnection = await setupMongoose(env.database.url)
+    await setupMongoose(env.database.url)
 
-    expect(mongoConnection.connection.readyState).toBe(1)
+    expect(mongoose.connection.readyState).toBe(1)
+  })
+
+  test('should valid if mongodb url is not provided', async () => {
+    await setupMongoose(env.database.url)
+    const { host, name } = mongoose.connection
+
+    expect(`mongodb://${host}/${name}`).toEqual(env.database.url)
   })
 })

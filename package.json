@@ -2,8 +2,9 @@
   "name": "clean-architecture-reference",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/main/index.js",
   "scripts": {
+    "dev": "tsnd --respawn -r tsconfig-paths/register src/main/index.ts",
     "test:unit": "jest --watch",
     "test:ci": "jest --coverage"
   },
@@ -11,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/faker": "^5.5.9",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.8",
@@ -26,9 +28,12 @@
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^3.12.0",
     "typescript": "^4.5.4"
   },
   "dependencies": {
+    "express": "^4.17.2",
     "mongoose": "^6.1.5"
   }
 }

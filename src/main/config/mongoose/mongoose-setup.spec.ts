@@ -4,10 +4,10 @@ import { setupMongoose } from '@/main/config/mongoose/mongoose-setup'
 import env from '@/main/config/env'
 
 describe('MongooseSetup', () => {
-  test('should throw if connection failure', () => {
+  test('should throw if connection failure', async () => {
     const promise = setupMongoose('')
 
-    expect(promise).rejects.toThrow()
+    await expect(promise).rejects.toThrow()
   })
 
   test('should valid if success connetion is true', async () => {

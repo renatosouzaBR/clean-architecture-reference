@@ -16,7 +16,7 @@ describe('MongooseSetup', () => {
     expect(mongoose.connection.readyState).toBe(1)
   })
 
-  test('should valid if mongodb url is not provided', async () => {
+  test('should valid if mongodb url is provided', async () => {
     await setupMongoose(env.database.url)
     const { host, name } = mongoose.connection
 

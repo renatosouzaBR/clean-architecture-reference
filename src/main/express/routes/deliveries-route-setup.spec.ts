@@ -5,7 +5,7 @@ import { setupDeliveriesRoute } from '@/main/express/routes/deliveries-route-set
 import { LoadDeliveriesController } from '@/presentation/controllers/load-deliveries'
 
 describe('DeliveriesRouteSetup', () => {
-  test('should return a json body', async () => {
+  test('should return a json body in get /deliveries', async () => {
     const app = express()
     setupDeliveriesRoute(app)
     jest

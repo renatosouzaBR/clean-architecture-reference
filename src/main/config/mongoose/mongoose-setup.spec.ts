@@ -1,25 +1,33 @@
 import mongoose from 'mongoose'
 
 import { setupMongoose } from '@/main/config/mongoose/mongoose-setup'
+import { MissingParamError } from '@/helpers/errors/missing-param-error'
 import env from '@/main/config/env'
 
 describe('MongooseSetup', () => {
-  test('should throw if connection failure', async () => {
-    const promise = setupMongoose('')
-
-    await expect(promise).rejects.toThrow()
+  beforeEach(() => {
+    jest.resetAllMocks()
   })
 
-  test('should valid if success connetion is true', async () => {
-    await setupMongoose(env.database.url)
+  test('should throw if mongoURL param is not provided', async () => {
+    const promise = setupMongoose(null)
 
-    expect(mongoose.connection.readyState).toBe(1)
+    await expect(promise).rejects.toThrow(new MissingParamError('mongoURL'))
   })
 
-  test('should valid if mongodb url is provided', async () => {
-    await setupMongoose(env.database.url)
-    const { host, name } = mongoose.connection
+  test('should pass if mongoURL param is provided', async () => {
+    mongoose.connect = jest.fn()
 
-    expect(`mongodb://${host}/${name}`).toEqual(env.database.url)
+    await setupMongoose(env.database.url)
+
+    expect(mongoose.connect).toHaveBeenCalledWith(env.database.url)
+  })
+
+  test('should not call mongoose.connect if connection.readyState != 0', async () => {
+    mongoose.connection.readyState = 1
+
+    await setupMongoose(env.database.url)
+
+    expect(mongoose.connect).not.toHaveBeenCalled()
   })
 })

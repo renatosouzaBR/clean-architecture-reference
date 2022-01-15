@@ -20,7 +20,11 @@ export const setupDeliveriesRoute = (app: Express): void => {
       params: { identificationIds: ['any_ids'] },
     })
 
-    res.send(response)
+    if (response.type === 'success') {
+      res.send(response)
+    } else {
+      res.status(404).send(response)
+    }
   })
 
   app.use('/deliveries', router)

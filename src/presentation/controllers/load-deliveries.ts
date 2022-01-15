@@ -13,7 +13,7 @@ export class LoadDeliveriesController implements Controller {
 
   async handle(
     request: Request<LoadDeliveriesParams>
-  ): Promise<Response<DeliveryView[]>> {
+  ): Promise<Response<DeliveryView[] | Error>> {
     try {
       if (!request?.params?.identificationIds)
         throw new MissingParamError('identificationIds')

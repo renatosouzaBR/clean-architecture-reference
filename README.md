@@ -77,15 +77,27 @@ Vou deixar aqui algumas anotações para guiar a construção de cada camada. En
 
 - Como funciona o TDD nessa camada?
   - não precisamos fazer testes de todos os arquivos, apenas daqueles que contenham alguma configuração e que queremos garantir o funcionamento correto.
-- Quais pastas podemos ter nessa camada?
+- Quais pastas podemos ter nessa camada? (isso é pessoal, coloque a que você quiser)
   - config: todo setup de libs externas
   - middlewares: auxiliares de middlewares
   - routes: caso de utilizar um express
-  - composers: arquivos que fazem a composição de classes para utilizar um caso de uso
   - adapters: classes que adptam requisicoes ou respostas dos casos de uso para as libs externas
-  - factories: funçao que retorna o controller criado com suas dependencias
+  - factories: classes/funções que montam a estrutura para um controller por exemplo.
 - O que colocamos nessa camada?
   - colocamos a composição de todas as outras camadas
-  - montamos as factories
+  - montamos os setups para iniciar a aplicação
+
+<p align="right">(<a href="#top">voltar ao topo</a>)</p>
+
+## Sobre os testes
+
+Eu deixei todos os testes unitários ao lado de cada arquivo de implementação. Gosto de manter assim pois este tipo de teste está relacionado diretamente ao arquivo ao qual vou modificar.
+Para os testes de ponta a ponta, vou coloca-los dentro da pasta **\_\_tests\_\_** na raiz do projeto. Essa separação é necessaria pois não quero que todos os testes sejam executados a cada commit, e sim somente os unitários. No caso do testes de ponto a ponta, só vou executa-los no momento de um push.
+
+<p align="right">(<a href="#top">voltar ao topo</a>)</p>
+
+## Arquitetura visual
+
+COLOCAR A IMAGEM DE COMO FICOU A ARQUITETURA COMPLETA
 
 <p align="right">(<a href="#top">voltar ao topo</a>)</p>

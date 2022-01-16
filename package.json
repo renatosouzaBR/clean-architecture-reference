@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsnd --respawn --watch -r tsconfig-paths/register src/main/index.ts",
     "test:unit": "jest --watch",
+    "test:e2e": "jest --watch -c jest.config.e2e.js",
     "test:ci": "jest --coverage"
   },
   "keywords": [],

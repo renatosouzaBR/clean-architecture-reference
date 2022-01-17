@@ -4,23 +4,13 @@ import { InputError } from '@/helpers/errors/input-error'
 import { DeliveryModel } from '@/infra/repositories/mongo/delivery-schema'
 import { MongoDBLoadDeliveries } from '@/infra/repositories/mongo/load-deliveries'
 import { mockReturnedArray } from '@/helpers/mocks/mock-returned-array'
+import { makeDeliveryFake } from '@/helpers/mocks/mock-delivery'
 
 const makeSut = () => {
   const sut = new MongoDBLoadDeliveries()
 
   return { sut }
 }
-
-const makeDbDeliveryFake = () => ({
-  _id: faker.datatype.uuid(),
-  document: faker.datatype.number().toString(),
-  destination: {
-    name: faker.name.findName(),
-    city: faker.address.city(),
-    state: faker.address.state(),
-  },
-  owner: 'any_ids',
-})
 
 describe('MongoDBLoadDeliveries', () => {
   test('should call sut.init sucessfully', () => {
@@ -40,7 +30,10 @@ describe('MongoDBLoadDeliveries', () => {
 
   test('should return a list of deliveries when call load method', async () => {
     const { sut } = makeSut()
-    const dbDeliveriesList = mockReturnedArray(2, makeDbDeliveryFake())
+    const dbDeliveriesList = mockReturnedArray(2, {
+      ...makeDeliveryFake(),
+      _id: faker.datatype.uuid(),
+    })
     DeliveryModel.find = jest.fn().mockResolvedValue(dbDeliveriesList)
 
     const deliveries = await sut.load(['any_ids'])
@@ -60,7 +53,10 @@ describe('MongoDBLoadDeliveries', () => {
 
   test('should valid if identificationIds is provided and load method called one time', async () => {
     const { sut } = makeSut()
-    const dbDeliveriesList = mockReturnedArray(2, makeDbDeliveryFake())
+    const dbDeliveriesList = mockReturnedArray(2, {
+      ...makeDeliveryFake(),
+      _id: faker.datatype.uuid(),
+    })
     DeliveryModel.find = jest.fn().mockResolvedValue(dbDeliveriesList)
 
     await sut.load(['any_ids'])

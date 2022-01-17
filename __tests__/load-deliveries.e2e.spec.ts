@@ -53,4 +53,16 @@ describe('LoadDeliveriesE2E', () => {
     )
     expect(response.body.type).toBe('success')
   })
+
+  test('should return a error when identificationIds is not provided', async () => {
+    const response = await request(app)
+      .get('/deliveries')
+      .expect(404)
+      .expect('Content-Type', /json/)
+
+    expect(response.body).toEqual({
+      data: { name: 'MissingParamError' },
+      type: 'failed',
+    })
+  })
 })

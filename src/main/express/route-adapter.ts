@@ -7,7 +7,7 @@ export const adaptRoute = (controller: Controller) => {
     const response = await controller.handle({ params: req.query })
 
     if (response.type === 'success') {
-      res.send(response)
+      res.json(response)
     } else {
       res.status(404).send(response)
     }

@@ -8,11 +8,16 @@ export class MongoDBLoadDeliveries implements DbLoadDeliveriesRepository {
     if (!identificationIds || identificationIds.length <= 0)
       throw new InputError('identificationIds cannot be empty')
 
-    const deliveryList = await DeliveryModel.find({ _id: identificationIds })
+    const deliveryList = await DeliveryModel.find({
+      owner: identificationIds,
+    })
 
     return deliveryList.map((delivery) => ({
       id: delivery._id,
-      ...delivery,
+      document: delivery.document,
+      destination: delivery.destination,
+      deliveryProofs: delivery.deliveryProofs,
+      owner: delivery.owner,
     }))
   }
 }

@@ -61,7 +61,7 @@ describe('MongoDBLoadDeliveries', () => {
 
     await sut.load(['any_ids'])
 
-    expect(DeliveryModel.find).toHaveBeenCalledWith({ _id: ['any_ids'] })
+    expect(DeliveryModel.find).toHaveBeenCalledWith({ owner: ['any_ids'] })
     expect(DeliveryModel.find).toHaveBeenCalledTimes(1)
   })
 })

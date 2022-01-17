@@ -7,9 +7,4 @@ module.exports = {
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
   },
-  coverageThreshold: {
-    global: {
-      branches: 100,
-    },
-  },
 }

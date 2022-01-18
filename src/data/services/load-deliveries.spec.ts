@@ -6,7 +6,7 @@ import { mockReturnedArray } from '@/helpers/mocks/mock-returned-array'
 import { DeliveryData } from '@/data/models/delivery-data'
 import { makeDeliveryFake } from '@/helpers/mocks/mock-delivery'
 
-class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
+class DbLoadDeliveriesRepositorySpy implements DbLoadDeliveriesRepository {
   callCount = 0
   identificationIds = []
   output = []
@@ -19,10 +19,10 @@ class DbLoadDeliveriesRepositoryMock implements DbLoadDeliveriesRepository {
 }
 
 const makeSut = () => {
-  const dbLoadDeliveriesRepositoryMock = new DbLoadDeliveriesRepositoryMock()
-  const sut = new LoadDeliveriesService(dbLoadDeliveriesRepositoryMock)
+  const dbLoadDeliveriesRepositorySpy = new DbLoadDeliveriesRepositorySpy()
+  const sut = new LoadDeliveriesService(dbLoadDeliveriesRepositorySpy)
 
-  return { sut, dbLoadDeliveriesRepositoryMock }
+  return { sut, dbLoadDeliveriesRepositorySpy }
 }
 
 describe('LoadDeliveriesService', () => {
@@ -34,12 +34,12 @@ describe('LoadDeliveriesService', () => {
 
   test('should valid if identificationIds param is provided and call load method one time', async () => {
     const anyIds = ['any_ids']
-    const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
+    const { sut, dbLoadDeliveriesRepositorySpy } = makeSut()
 
     await sut.load(anyIds)
 
-    expect(dbLoadDeliveriesRepositoryMock.callCount).toBe(1)
-    expect(dbLoadDeliveriesRepositoryMock.identificationIds).toEqual(anyIds)
+    expect(dbLoadDeliveriesRepositorySpy.callCount).toBe(1)
+    expect(dbLoadDeliveriesRepositorySpy.identificationIds).toEqual(anyIds)
   })
 
   test('should return throws if identificationIds param is no provided', () => {
@@ -55,8 +55,8 @@ describe('LoadDeliveriesService', () => {
   test('should return a list of deliveries if load method is called', async () => {
     const anyIds = ['any_ids']
     const deliveries = mockReturnedArray(2, makeDeliveryFake())
-    const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
-    dbLoadDeliveriesRepositoryMock.output = deliveries
+    const { sut, dbLoadDeliveriesRepositorySpy } = makeSut()
+    dbLoadDeliveriesRepositorySpy.output = deliveries
 
     const listOfDeliveries = await sut.load(anyIds)
 
@@ -66,9 +66,9 @@ describe('LoadDeliveriesService', () => {
   test('should return throws if list of deliveries returns unknown identificationsIds', () => {
     const anyIds = ['any_ids']
     const deliveries = mockReturnedArray(2, makeDeliveryFake())
-    const { sut, dbLoadDeliveriesRepositoryMock } = makeSut()
-    dbLoadDeliveriesRepositoryMock.output = deliveries
-    dbLoadDeliveriesRepositoryMock.output[0].owner = 'unknown_id'
+    const { sut, dbLoadDeliveriesRepositorySpy } = makeSut()
+    dbLoadDeliveriesRepositorySpy.output = deliveries
+    dbLoadDeliveriesRepositorySpy.output[0].owner = 'unknown_id'
 
     const promise = sut.load(anyIds)
 

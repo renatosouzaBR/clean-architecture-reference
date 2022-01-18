@@ -5,7 +5,7 @@ import { makeDeliveryFake } from '@/helpers/mocks/mock-delivery'
 import { mockReturnedArray } from '@/helpers/mocks/mock-returned-array'
 import { LoadDeliveriesController } from '@/presentation/controllers/load-deliveries'
 
-class LoadDeliveriesUseCaseMock implements LoadDeliveries {
+class LoadDeliveriesUseCaseSpy implements LoadDeliveries {
   output = []
   identificationIds = []
   countCount = 0
@@ -18,10 +18,10 @@ class LoadDeliveriesUseCaseMock implements LoadDeliveries {
 }
 
 const makeSut = () => {
-  const loadDeliveriesUseCaseMock = new LoadDeliveriesUseCaseMock()
-  const sut = new LoadDeliveriesController(loadDeliveriesUseCaseMock)
+  const loadDeliveriesUseCaseSpy = new LoadDeliveriesUseCaseSpy()
+  const sut = new LoadDeliveriesController(loadDeliveriesUseCaseSpy)
 
-  return { sut, loadDeliveriesUseCaseMock }
+  return { sut, loadDeliveriesUseCaseSpy }
 }
 
 describe('LoadDeliveriesController', () => {
@@ -43,22 +43,22 @@ describe('LoadDeliveriesController', () => {
   })
 
   test('should return a list of deliveries if identificationIds param is provided', async () => {
-    const { sut, loadDeliveriesUseCaseMock } = makeSut()
-    loadDeliveriesUseCaseMock.output = mockReturnedArray(2, makeDeliveryFake())
+    const { sut, loadDeliveriesUseCaseSpy } = makeSut()
+    loadDeliveriesUseCaseSpy.output = mockReturnedArray(2, makeDeliveryFake())
 
     const response = await sut.handle({
       params: { identificationIds: ['any_id'] },
     })
 
     expect(response).toEqual({
-      data: loadDeliveriesUseCaseMock.output,
+      data: loadDeliveriesUseCaseSpy.output,
       type: 'success',
     })
   })
 
   test('should return a empty list if identificationIds param is provided', async () => {
-    const { sut, loadDeliveriesUseCaseMock } = makeSut()
-    loadDeliveriesUseCaseMock.output = []
+    const { sut, loadDeliveriesUseCaseSpy } = makeSut()
+    loadDeliveriesUseCaseSpy.output = []
 
     const response = await sut.handle({
       params: { identificationIds: ['any_id'] },
@@ -71,22 +71,22 @@ describe('LoadDeliveriesController', () => {
   })
 
   test('should valid if identificationIds param is provided for usecase and called one time', async () => {
-    const { sut, loadDeliveriesUseCaseMock } = makeSut()
+    const { sut, loadDeliveriesUseCaseSpy } = makeSut()
 
     await sut.handle({
       params: { identificationIds: ['any_id'] },
     })
 
-    expect(loadDeliveriesUseCaseMock.identificationIds).toEqual(['any_id'])
-    expect(loadDeliveriesUseCaseMock.countCount).toBe(1)
+    expect(loadDeliveriesUseCaseSpy.identificationIds).toEqual(['any_id'])
+    expect(loadDeliveriesUseCaseSpy.countCount).toBe(1)
   })
 
   test('should return a list of deliveries with a deliveryProofs prop', async () => {
-    const { sut, loadDeliveriesUseCaseMock } = makeSut()
+    const { sut, loadDeliveriesUseCaseSpy } = makeSut()
     const deliveryFake = makeDeliveryFake()
     const deliveredWhen = new Date()
     const deliveryProofs = { deliveredWhen }
-    loadDeliveriesUseCaseMock.output = [{ ...deliveryFake, deliveryProofs }]
+    loadDeliveriesUseCaseSpy.output = [{ ...deliveryFake, deliveryProofs }]
 
     const response = await sut.handle({
       params: { identificationIds: ['any_id'] },

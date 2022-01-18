@@ -94,10 +94,14 @@ Vou deixar aqui algumas anotações para guiar a construção de cada camada. En
 Eu deixei todos os testes unitários ao lado de cada arquivo de implementação. Gosto de manter assim pois este tipo de teste está relacionado diretamente ao arquivo ao qual vou modificar.
 Para os testes de ponta a ponta, vou coloca-los dentro da pasta **\_\_tests\_\_** na raiz do projeto. Essa separação é necessaria pois não quero que todos os testes sejam executados a cada commit, e sim somente os unitários. No caso do testes de ponto a ponta, só vou executa-los no momento de um push.
 
+- Mock:
+- Stub:
+- Spy:
+
 <p align="right">(<a href="#top">voltar ao topo</a>)</p>
 
 ## Arquitetura visual
 
-COLOCAR A IMAGEM DE COMO FICOU A ARQUITETURA COMPLETA
+![architecture](docs/architecture.drawio.svg)
 
 <p align="right">(<a href="#top">voltar ao topo</a>)</p>
